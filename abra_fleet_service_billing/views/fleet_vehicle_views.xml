@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_fleet_vehicle_form_abra_service" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.abra.service.billing</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Header button, anchored on //header for upgrade-safety -->
+            <xpath expr="//header" position="inside">
+                <button name="action_mark_as_serviced" type="object"
+                        string="Mark as Serviced"
+                        class="btn-secondary"/>
+            </xpath>
+
+            <!-- Needs Service indicator next to the vehicle name, so it's
+                 visible at a glance without opening a separate tab -->
+            <xpath expr="//div[hasclass('oe_title')]" position="after">
+                <widget name="web_ribbon" title="Needs Service"
+                        bg_color="text-bg-danger"
+                        invisible="not abra_needs_service"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='note']" position="before">
+                <page string="Service Billing" name="abra_service_billing">
+                    <group>
+                        <group string="Service Interval">
+                            <field name="abra_service_interval_km"/>
+                            <field name="abra_estimated_service_cost"/>
+                        </group>
+                        <group string="Tracking (read-only)">
+                            <field name="odometer" readonly="1"/>
+                            <field name="abra_last_service_odometer" readonly="1"/>
+                            <field name="abra_needs_service" force_save="1" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

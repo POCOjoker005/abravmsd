@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_move_form_abra_vehicle" model="ir.ui.view">
+        <field name="name">account.move.form.abra.vehicle</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Anchored on the partner_id field, which is a stable,
+                 near-universal anchor point on the invoice form header
+                 across Odoo point releases. Only shown when set, since
+                 it's populated exclusively by the automated service-bill
+                 flow, not something a user fills in on a normal bill. -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="abra_vehicle_id" readonly="1"
+                       invisible="not abra_vehicle_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
