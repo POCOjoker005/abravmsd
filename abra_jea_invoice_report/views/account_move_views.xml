@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add a "JEA Invoice Info" tab with the header reference fields,
+         and a Claim % column on the invoice lines, only relevant for
+         customer invoices (move_type = out_invoice / out_refund). -->
+    <record id="view_move_form_jea_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.jea.invoice.info</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Anchored on the notebook itself (rather than a specific
+                 sibling page id) since exact page ids on account.move's
+                 form view can differ slightly between Odoo point
+                 releases; appending as the last tab is version-safe. -->
+            <xpath expr="//notebook" position="inside">
+                <page string="JEA Invoice Info" id="jea_invoice_info"
+                      invisible="move_type not in ('out_invoice', 'out_refund')">
+                    <group>
+                        <group string="References">
+                            <field name="jea_job_number"/>
+                            <field name="jea_order_ref"/>
+                            <field name="jea_order_ref_date"/>
+                            <field name="jea_project_reference"/>
+                        </group>
+                        <group string="Payment &amp; TRN">
+                            <field name="jea_payment_schedule"/>
+                            <field name="jea_trn_override"
+                                   placeholder="Leave empty to use Company TRN, or 'Under Regn'"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- Claim % column inside the invoice_line_ids tree -->
+            <xpath expr="//field[@name='invoice_line_ids']/list/field[@name='quantity']"
+                   position="before">
+                <field name="jea_claim_percentage" string="Claim %" optional="show"
+                       invisible="parent.move_type not in ('out_invoice', 'out_refund')"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_jea_invoice" model="ir.actions.report">
+        <field name="name">JEA Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">abra_jea_invoice_report.report_jea_invoice_document</field>
+        <field name="report_file">abra_jea_invoice_report.report_jea_invoice_document</field>
+        <field name="print_report_name">'JEA Invoice - %s' % (object.name or 'Draft')</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
